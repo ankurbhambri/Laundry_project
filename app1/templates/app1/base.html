@@ -720,7 +720,7 @@
                </div>
             </div>
             <div class="contact-us">
-               <form action="" method="get">
+               <form method="get">
                   <div class="row">
                      <div class="col-lg-6 col-md-6 col-sm-6 styled-input">
                         <input type="text" id="name_in" name="Name" placeholder="Name" required="">
@@ -741,7 +741,7 @@
                   </div>
                   <div>
                      <div class="click">
-                           <input type="submit" id="value_save" value="Send">
+                           <input type="submit" onclick="showStatus()" id="value_save" value="submit">
                      </div>
                   </div>
                </form>
@@ -749,11 +749,11 @@
             </div>
          </div>
       </div>
-      <div class="contact-map">
+      <!-- <div class="contact-map">
          <div class="map-grid">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.948805392833!2d-73.99619098458929!3d40.71914347933105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a27e2f24131%3A0x64ffc98d24069f02!2sCANADA!5e0!3m2!1sen!2sin!4v1479793484055"></iframe>
          </div>
-      </div>
+      </div> -->
       <!-- //contact-->
       <!-- footer-->
       <footer>
@@ -761,9 +761,9 @@
             <div class="agileits-contact-addrss">
                <div class="row top-gap">
                   <div class="col-md-7 header-side">
-                     <!-- <p> 
-                        © 2018 Clean & Dry. All Rights Reserved | Design by <a href="http://www.W3Layouts.com" target="_blank">W3Layouts</a>
-                     </p> -->
+                     <p> 
+                        © 2019 Clean & Dry. All Rights Reserved ></a>
+                     </p>
                   </div>
                   <div class="col-md-5 header-side">
                      <div class="buttom-social-grids">
@@ -842,51 +842,59 @@
          		easingType: 'easeOutQuart'
          	});
          });
-      </script
+      </script>
       <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
       <!-- //for-bottom-to-top smooth scrolling -->
       <!--bootstrap working-->
-      <script src="static/js/bootstrap.min.js"></script>
+      <script src="{% static 'app1/js/bootstrap.min.js' %}"></script>
       <!-- //bootstrap working-->
-         <!-- jQuery-Photo-filter-lightbox-Gallery-plugin -->
+      <!-- jQuery-Photo-filter-lightbox-Gallery-plugin -->
       <script src="{% static 'app1/js/jquery-1.7.2.js' %}"></script>
       <script src="{% static 'app1/js/jquery.quicksand.js' %}"></script>
       <script src="{% static 'app1/js/script.js' %}"></script>
       <script src="{% static 'app1/js/jquery.prettyPhoto.js' %}" ></script>
 
+      <!-- Show status on data save -->
       <script>
-      $("#value_save").click(function() {
-         var name = $('#name_in').val();
-         var email = $('#email_in').val();
-         var phone = $('#phone_in').val();
-         var landmark = $('#landmark_in').val();
-         var address = $('#address_in').val();
-         if (name == "" || email == "" || phone == "" || landmark == "" || address == "")
-            {
-                  alert("Please Enter Value");
-                  return false;
-            }
-         else
-            {
-               $.ajax(
+         function showStatus() {
+            alert('Your request is placed.')
+         }
+      </script>
+      <!-- Important ajax call -->
+      <script>
+         $("#value_save").click(function() {
+            var name = $('#name_in').val();
+            var email = $('#email_in').val();
+            var phone = $('#phone_in').val();
+            var landmark = $('#landmark_in').val();
+            var address = $('#address_in').val();
+            if (name == "" || email == "" || phone == "" || landmark == "" || address == "")
                {
-                  type:"GET",
-                  url: "/likepost",
-                  data:{
-                     name: name,
-                     email: email,
-                     phone: phone,
-                     landmark: landmark,
-                     address: address,
-                  },
-                  success: function( data ) 
+                     alert("Please Enter Value");
+                     return false;
+               }
+            else
+               {
+                  $.ajax(
                   {
-                     alert("Thank you so much for choosing us your request is done.")
-                  }
-               })
-            }
-         });
-   </script>
+                     type: "GET",
+                     url: "contact/",
+                     data:{
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        landmark: landmark,
+                        address: address,
+                     },
+                     contentType: "application/json; charset=utf-8",
+                     dataType: 'json',
+                     success: function (resdata) {
+                     alert("Thakyou for choosing our team will contact you soon", resdata);
+                     },
+                  });
+               }
+            });
+      </script>
       <!-- //jQuery-Photo-filter-lightbox-Gallery-plugin -->
    </body>
 </html>

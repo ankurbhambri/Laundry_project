@@ -4,9 +4,9 @@ from app1.models import LaundryModel
 
 class LaundryAdmin(admin.ModelAdmin):
 
-    list_display = ('email', 'name', 'mobile', 'landmark',
+    list_display = ( 'order_id', 'email', 'name', 'mobile', 'landmark',
                     'address', )
-    search_fields = ('email', 'mobile', 'name', )
+    search_fields = ( 'order_id', 'email', 'mobile', 'name', )
 
 admin.site.register(LaundryModel, LaundryAdmin)
 
