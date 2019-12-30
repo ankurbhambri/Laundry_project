@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Customers(models.Model):
+class Customer(models.Model):
     name = models.CharField(max_length=200, blank=False, null=True)
     email = models.EmailField(max_length=255, blank=False, null=True, unique=True)
     mobile = models.CharField( max_length=12, blank=False, null=True)
@@ -14,8 +14,8 @@ class Customers(models.Model):
         db_table = 'Customers'
 
 
-class Orders(models.Model):
-    cust_id = models.ForeignKey(Customers, on_delete=models.CASCADE)
+class Order(models.Model):
+    cust_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True, blank=False, null=True)
 
 
@@ -24,7 +24,7 @@ class Product(models.Model):
     product_price = models.IntegerField()
 
 
-class OrderItems(models.Model):
-    order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
+class OrderItem(models.Model):
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
     product_id = models.OneToOneField(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
