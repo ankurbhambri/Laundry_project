@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 
 
 class Customer(models.Model):
@@ -10,21 +11,19 @@ class Customer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=False, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=False, null=True)
 
-    class Meta:
-        db_table = 'Customers'
-
-
-class Order(models.Model):
-    cust_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    order_date = models.DateTimeField(auto_now_add=True, blank=False, null=True)
-
-
+    
 class Product(models.Model):
     product_name = models.CharField(max_length=50)
     product_price = models.IntegerField()
+    product_image = models.ImageField(upload_to='product_images/')
+    created_at = models.DateTimeField(auto_now_add=True, blank=False, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=False, null=True)
 
 
-class OrderItem(models.Model):
-    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product_id = models.OneToOneField(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+class Order(models.Model):
+    customer_id = models.IntegerField()
+    product_quantity = JSONField()
+    total_price = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True, blank=False, null=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=False, null=True)
+

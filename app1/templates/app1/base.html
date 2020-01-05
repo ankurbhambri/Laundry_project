@@ -125,7 +125,7 @@
             <div class="banner_social">
                <ul class="its_social_list">
                   <div class="outs_more-buttn" data-toggle="modal" data-target="#myModal1">
-                     <a href="#">Schedule Pickup</a>
+                     <a>Schedule Pickup</a>
                   </div>
                </ul>
             </div>
@@ -136,23 +136,43 @@
          aria-hidden="true">
          <div class="modal-dialog">
             <div class="modal-content">
-               <div class="modal-header">
+               <div class="modal-header text-center">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                        
+                  <h4 class="modal-title w-100 font-weight-bold">Contact Details</h4>
                </div>
-               <div class="modal-body">
+               <div class="modal-body mx-2" style="overflow-y: auto; height: 390px;">
                   {% block content %}
-                  <h2>Contact Details</h2><a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-                  <form method="POST" class="post-form">{% csrf_token %}
-                     {{ form.as_p }}
+                  <form method="GET" action="/contact/">
+                     <div class="form-group">
+                        <input type="text" class="form-control" id="name_in" placeholder="Username" id="recipient-name">
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control" id="email_in" placeholder="Email" id="recipient-name">
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control" id="phone_in" placeholder="Phone Number"
+                           id="recipient-name">
+                     </div>
+                     <div class="form-group">
+                        <input type="text" class="form-control" id="landmark_in" placeholder="Landmark"
+                           id="recipient-name">
+                     </div>
+                     <div class="form-group">
+                        <textarea class="form-control" id="address_in" placeholder="Address"
+                           id="message-text"></textarea>
+                     </div>
+                     <div class="form-group"
+                        onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy'); return false; }">
+                        <input type="checkbox" name="checkbox" value="check" id="agree" /> I have read and agree with
+                        Terms and Conditions
+                     </div>
                   </form>
                   {% endblock %}
-               
-               <div class="modal-footer">
-                  <button type="submit" class="btn btn-default btn-next">Next</button>
                </div>
-            </div>
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-next" id="value_save" name="print_btn">Next</button>
+               </div>
             </div>
          </div>
       </div>
@@ -163,37 +183,27 @@
          <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart
+                     (<span class="total-count"></span>)</button>
                </div>
-               <div class="modal-body cartmodal" style="overflow-y: auto; height: 250px;">
-                  <!-- Nav -->
-                  <nav class="navbar">
-                     <div class="row">
-                        <div class="col">
-                           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cart">Cart
-                              (<span class="total-count"></span>)</button><button
-                              class="clear-cart btn btn-danger">Clear Cart</button></div>
-                     </div>
-                  </nav>
-
+               <div class="modal-body cartmodal" style="overflow-y: auto; height: 400px;">
                   <!-- Main -->
                   <div class="container">
                      <div class="row">
+                        {% for value in prod %}
                         <div class="col">
                            <div class="card" style="width: 10rem;">
-                              <img class="card-img-top" src="http://www.azspagirls.com/files/2010/09/orange.jpg"
-                                 alt="Card image cap">
+                              <img class="card-img-top" src="{{ value.product_name.url}}" alt="{{ value.product_name }}">
                               <div class="card-block">
-                                 <h4 class="card-title">Orange</h4>
-                                 <p class="card-text">Price: $0.5</p>
-                                 <a href="#" data-name="Orange" data-price="0.5" class="add-to-cart btn btn-primary">Add
-                                    to cart</a>
+                                 <h4 class="card-title">{{ value.product_name }}</h4>
+                                 <p class="card-text">Price: {{ value.product_price }}</p>
+                                 <a href="#" data-name="Orange" data-price="{{ value.product_price }}" class="add-to-cart btn btn-primary">Add to cart</a>
                               </div>
                            </div>
                         </div>
-                        <div class="col">
-                           <div class="card" style="width: 10rem;">
+                        {% endfor %}
+                        <!-- <div class="col">
+                           <div class="card" style="width: 7rem;">
                               <img class="card-img-top"
                                  src="http://images.all-free-download.com/images/graphicthumb/vector_illustration_of_ripe_bananas_567893.jpg"
                                  alt="Card image cap">
@@ -204,9 +214,9 @@
                                     class="add-to-cart btn btn-primary">Add to cart</a>
                               </div>
                            </div>
-                        </div>
-                        <div class="col">
-                           <div class="card" style="width: 10rem;">
+                        </div> -->
+                        <!-- <div class="col">
+                           <div class="card" style="width: 7rem;">
                               <img class="card-img-top"
                                  src="https://3.imimg.com/data3/IC/JO/MY-9839190/organic-lemon-250x250.jpg"
                                  alt="Card image cap">
@@ -217,7 +227,7 @@
                                     cart</a>
                               </div>
                            </div>
-                        </div>
+                        </div> -->
                      </div>
                   </div>
 
@@ -228,18 +238,13 @@
                         <div class="modal-content">
                            <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
-                              <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                 <span aria-hidden="true">&times;</span>
-                              </button> -->
                            </div>
                            <div class="modal-body">
                               <table class="show-cart table">
-
                               </table>
                               <div>Total price: $<span class="total-cart"></span></div>
                            </div>
                            <div class="modal-footer">
-                              <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
                               <button type="button" class="btn btn-primary">Order now</button>
                            </div>
                         </div>
@@ -247,16 +252,13 @@
                   </div>
                </div>
                <div class="modal-footer">
-                  <button type="button" class="btn btn-default btn-prev">Prev</button>
+                  <button type="button" class="btn btn-primary btn-prev">Prev</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                </div>
             </div>
          </div>
       </div>
 
-      <!-- This is here just to demonstrate the callbacks -->
-      <!-- <ul class="events">
-            <li>Example 4 callback events</li>
-            </ul>-->
    </div>
    <!-- //banner -->
    <!--about -->
@@ -860,7 +862,7 @@
    </div>
    <!--//testimonials -->
    <!-- contact -->
-   <div class="contact" id="contact">
+   <!-- <div class="contact" id="contact">
       <div class="container">
          <h3 class="title clr">Contact Us</h3>
          <div class="row bottom-copy text-center">
@@ -878,8 +880,8 @@
                <h4>Email :</h4>
                <p> <a href="dummy:info@example.com">info@example1.com</a></p>
             </div>
-         </div>
-         <div class="contact-us">
+         </div> -->
+   <!-- <div class="contact-us">
             <form method="get">
                <div class="row">
                   <div class="col-lg-6 col-md-6 col-sm-6 styled-input">
@@ -906,9 +908,9 @@
                </div>
             </form>
             <div class="clearfix"> </div>
-         </div>
-      </div>
-   </div>
+         </div> -->
+   <!-- </div>
+   </div> -->
    <!-- <div class="contact-map">
          <div class="map-grid">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.948805392833!2d-73.99619098458929!3d40.71914347933105!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a27e2f24131%3A0x64ffc98d24069f02!2sCANADA!5e0!3m2!1sen!2sin!4v1479793484055"></iframe>
@@ -922,7 +924,7 @@
             <div class="row top-gap">
                <div class="col-md-7 header-side">
                   <p>
-                     © 2019 Clean & Dry. All Rights Reserved ></a>
+                     © 2020. All Rights Reserved ></a>
                   </p>
                </div>
                <div class="col-md-5 header-side">
@@ -1015,45 +1017,6 @@
    <script src="{% static 'app1/js/jquery.prettyPhoto.js' %}"></script>
    <script src="{% static 'app1/js/jQuery.SimpleCart.js' %}"></script>
 
-   <!-- Show status on data save -->
-   <script>
-      function showStatus() {
-         alert('Your request is placed.')
-      }
-   </script>
-   <!-- Important ajax call -->
-   <script>
-      $("#value_save").click(function () {
-         var name = $('#name_in').val();
-         var email = $('#email_in').val();
-         var phone = $('#phone_in').val();
-         var landmark = $('#landmark_in').val();
-         var address = $('#address_in').val();
-         if (name == "" || email == "" || phone == "" || landmark == "" || address == "") {
-            alert("Please Enter Value");
-            return false;
-         }
-         else {
-            $.ajax(
-               {
-                  type: "GET",
-                  url: "contact/",
-                  data: {
-                     name: name,
-                     email: email,
-                     phone: phone,
-                     landmark: landmark,
-                     address: address,
-                  },
-                  contentType: "application/json; charset=utf-8",
-                  dataType: 'json',
-                  success: function (resdata) {
-                     alert("Thakyou for choosing our team will contact you soon", resdata);
-                  },
-               });
-         }
-      });
-   </script>
    <!-- Modal Next Previous Handling -->
    <script>
       $("div[id^='myModal']").each(function () {
@@ -1280,6 +1243,39 @@
 
       displayCart();
 
+   </script>
+   <!-- Important ajax call -->
+   <script>
+      $("#value_save").click(function () {
+         var name = $('#name_in').val();
+         var email = $('#email_in').val();
+         var phone = $('#phone_in').val();
+         var landmark = $('#landmark_in').val();
+         var address = $('#address_in').val();
+         if (name == "" || email == "" || phone == "" || landmark == "" || address == "") {
+            alert("Please Enter Value");
+            return false;
+         }
+         else {
+            $.ajax(
+               {
+                  type: "GET",
+                  url: "contact/",
+                  data: {
+                     name: name,
+                     email: email,
+                     phone: phone,
+                     landmark: landmark,
+                     address: address,
+                  },
+                  contentType: "application/json; charset=utf-8",
+                  dataType: 'json',
+                  success: function (resdata) {
+                     alert("Thakyou for choosing our team will contact you soon", resdata);
+                  },
+               });
+         }
+      });
    </script>
 </body>
 

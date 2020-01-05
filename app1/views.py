@@ -1,26 +1,53 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_protect
+
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import Customer, Product
-from .forms import PostForm
+from django.views.generic import ListView
 import random
 import string
+import json
 
 
 def random_string_generator(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
+@csrf_protect
 def contact(request):
-    product = Product.objects.all()
-    return render(request, 'app1/base.html', {'product': product})
 
-def post_new(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.save()
-            return redirect('post_detail', pk=post.pk)
+    if request.method == 'GET':
+
+        name = request.GET.get('name')
+        email = request.GET.get('email')
+        phone = request.GET.get('phone')
+        landmark = request.GET.get('landmark')
+        address = request.GET.get('address')
+        order_id_gen=random_string_generator()
+        prod = Product.objects.all()
+        # customer_details = Customer.objects.create(
+        #     name=name, email=email, mobile=phone,
+        #     landmark=landmark, address=address,
+        # )
+        # if likedpost:
+        #     from_email = settings.EMAIL_HOST_USER
+        #     recipient_list = [email]
+        #     send_mail(
+        #         'CompanyName Laundry Service',
+        #         ' Hi, ' + name +
+        #         '\n Thank you for choosing us your reference id is ' + order_id_gen +
+        #         '\n We are processing your request and our team will contact you soon.',
+        #         from_email,
+        #         recipient_list, fail_silently=False
     else:
-        form = PostForm()
-    return render(request, 'app1/base.html', {'form': form})
+        return HttpResponse(
+            "Oops something weent wrong!!!!"
+        )
+
+def product(request, pk):
+    if(request.GET.get('print_btn')):
+        import ipdb; ipdb.set_trace()
+        prod = Product.objects.all()
+    return render(request, 'app1/base.html', {'prod': prod})
