@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.views.decorators.csrf import csrf_protect
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -15,7 +14,6 @@ import json
 def random_string_generator(size=10, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
-@csrf_protect
 def contact(request):
 
     if request.method == 'GET':
@@ -41,13 +39,6 @@ def contact(request):
         #         '\n We are processing your request and our team will contact you soon.',
         #         from_email,
         #         recipient_list, fail_silently=False
-    else:
-        return HttpResponse(
-            "Oops something weent wrong!!!!"
-        )
-
-def product(request, pk):
-    if(request.GET.get('print_btn')):
-        import ipdb; ipdb.set_trace()
-        prod = Product.objects.all()
+        # 
     return render(request, 'app1/base.html', {'prod': prod})
+    
