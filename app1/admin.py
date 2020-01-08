@@ -20,5 +20,6 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
 
-    list_display = ('customer_id', 'product_quantity', 'total_price', 'created_at', 'updated_at')
-    search_fields = ('customer_id',)
+    list_display = ('customer_name', 'customer_email', 'total_quantity',
+                    'total_price', 'query_json', 'created_at', 'updated_at')
+    search_fields = ('customer_name', 'customer_email',)

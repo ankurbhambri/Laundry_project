@@ -195,7 +195,7 @@
                               <div class="card-block">
                                  <h4 class="card-title">{{ value.product_name }}</h4>
                                  <p class="card-text">Price: {{ value.product_price }}</p>
-                                 <a href="#" data-name="Orange" data-price="{{ value.product_price }}" class="add-to-cart btn btn-primary">Add to cart</a>
+                                 <a href="#" data-name="{{ value.product_name }}" data-price="{{ value.product_price }}" class="add-to-cart btn btn-primary">Add to cart</a>
                               </div>
                            </div>
                         </div>
@@ -214,10 +214,10 @@
                            <div class="modal-body">
                               <table class="show-cart table">
                               </table>
-                              <div>Total price: $<span class="total-cart"></span></div>
+                              <div>Total price: <span class="total-cart"></span></div>
                            </div>
                            <div class="modal-footer">
-                              <button type="button" class="btn btn-primary">Order now</button>
+                              <button type="button" class="btn btn-primary" id="order">Order now</button>
                            </div>
                         </div>
                      </div>
@@ -1114,18 +1114,18 @@
 
          // List cart
          obj.listCart = function () {
-            var cartCopy = [];
-            for (i in cart) {
-               item = cart[i];
-               itemCopy = {};
-               for (p in item) {
-                  itemCopy[p] = item[p];
+            // var cartCopy = [];
+            // for (i in cart) {
+            //    item = cart[i];
+            //    itemCopy = {};
+            //    for (p in item) {
+            //       itemCopy[p] = item[p];
 
-               }
-               itemCopy.total = Number(item.price * item.count).toFixed(2);
-               cartCopy.push(itemCopy)
-            }
-            return cartCopy;
+            //    }
+            //    itemCopy.total = Number(item.price * item.count).toFixed(2);
+            //    cartCopy.push(itemCopy)
+            // }
+            return cart;
          }
 
          // cart : Array
@@ -1214,8 +1214,30 @@
 
       displayCart();
 
+      $("#order").click(function () {
+         var totalCount = shoppingCart.totalCount()
+         var totalCart = shoppingCart.totalCart()
+         var cartArray = JSON.stringify(cart)
+         $.ajax(
+            {
+               type: "GET",
+               url: "",
+               data: {
+                  totalCount: totalCount,
+                  totalCart: totalCart,
+                  cartArray: cartArray,
+               },
+               contentType: "application/json; charset=utf-8",
+               dataType: 'json',
+               success: function (resdata) {
+                  alert("Thakyou for choosing our team will contact you soon", resdata);
+               },
+            });
+      });
+      
+
    </script>
-   <!-- Important ajax call -->
+   <!-- Form ajax call -->
    <script>
       $("#value_save").click(function () {
          var name = $('#name_in').val();
@@ -1231,7 +1253,7 @@
             $.ajax(
                {
                   type: "GET",
-                  url: "contact/",
+                  url: "",
                   data: {
                      name: name,
                      email: email,
