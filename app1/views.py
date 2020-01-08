@@ -17,29 +17,33 @@ def random_string_generator(size=10, chars=string.ascii_uppercase + string.digit
 def contact(request):
 
     prod = Product.objects.all()
-    if request.method == 'GET':
+    if request.GET.get('action') == 'customer':
 
         name = request.GET.get('name')
         email = request.GET.get('email')
         phone = request.GET.get('phone')
         landmark = request.GET.get('landmark')
         address = request.GET.get('address')
-        order_id_gen=random_string_generator()
-        totalCount = request.GET.get('totalCount')
-        totalamount = request.GET.get('totalCart')
-        cartArray = request.GET.get('cartArray')
-        customer_details = Customer.objects.create(
+        #order_id_gen=random_string_generator()
+        Customer.objects.create(
             name=name, email=email, mobile=phone,
             landmark=landmark, address=address,
         )
-        if cartArray:
-            Order.objects.create(
-                customer_name=name,
-                customer_email=email,
-                query_json=cartArray,
-                total_quantity=totalCount,
-                total_price=totalamount,
-            )
+
+    if request.GET.get('action') == 'order':
+
+        name = request.GET.get('name')
+        email = request.GET.get('email')
+        totalCount = request.GET.get('totalCount')
+        totalamount = request.GET.get('totalCart')
+        cartArray = request.GET.get('cartArray')
+        Order.objects.create(
+            customer_name=name,
+            customer_email=email,
+            query_json=cartArray,
+            total_quantity=totalCount,
+            total_price=totalamount,
+        )
         # if likedpost:
         #     from_email = settings.EMAIL_HOST_USER
         #     recipient_list = [email]
@@ -50,6 +54,5 @@ def contact(request):
         #         '\n We are processing your request and our team will contact you soon.',
         #         from_email,
         #         recipient_list, fail_silently=False
-        
     return render(request, 'app1/base.html', {'prod': prod})
     
