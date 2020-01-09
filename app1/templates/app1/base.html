@@ -33,6 +33,9 @@
    <!--//stylesheets-->
    <link href="//fonts.googleapis.com/css?family=Montserrat:300,400,500" rel="stylesheet">
 
+   <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@3/dark.css" rel="stylesheet">
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@9/dist/sweetalert2.min.js"></script>
+
    <style>
       .show-cart li {
          display: flex;
@@ -46,6 +49,9 @@
          width: 200px;
          height: 200px;
          align-self: center;
+      }
+      body {
+         font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
       }
    </style>
 </head>
@@ -120,7 +126,6 @@
             </ul>
          </div>
          <li>
-
             <div class="clearfix"> </div>
             <div class="banner_social">
                <ul class="its_social_list">
@@ -669,7 +674,14 @@
    <div class="price-table">
       <div class="container">
          <h3 class="title clr">Prices & Plans</h3>
-         <div class="row">
+         <div class="banner_social">
+            <ul class="its_social_list">
+               <div class="outs_more-buttn">
+                  <a href="{% static 'dummy.pdf' %}" download>Download our Pricing List</a>
+               </div>
+            </ul>
+         </div>
+         <!-- <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 price-agile-list">
                <div class="pricing text-center">
                   <div class="pricing-top">
@@ -734,7 +746,7 @@
                   <div class="btn"><a href="#contact" class="scroll">Order Now</a></div>
                </div>
             </div>
-         </div>
+         </div> -->
       </div>
       <div class="clearfix"> </div>
    </div>
@@ -834,25 +846,24 @@
    </div>
    <!--//testimonials -->
    <!-- contact -->
-   <!-- <div class="contact" id="contact">
-      <div class="container">
-         <h3 class="title clr">Contact Us</h3>
-         <div class="row bottom-copy text-center">
-            <div class="col-lg-4 col-md-4 agileits-contact-addrs">
-               <h4>Address :</h4>
-               <p>C-2B block janakpuri<br> New Delhi.
-                  Delhi.
-               </p>
+      <div class="contact" id="contact">
+         <div class="container">
+            <h3 class="title clr">Contact Us</h3>
+            <div class="row bottom-copy text-center">
+               <div class="col-lg-4 col-md-4 agileits-contact-addrs">
+                  <h4>Address :</h4>
+                  <p>D Block<br> New Delhi.
+                  </p>
+               </div>
+               <div class="col-lg-4 col-md-4 agileits-contact-addrs">
+                  <h4>Phone :</h4>
+                  <p> 123456789</p>
+               </div>
+               <div class="col-lg-4 col-md-4 agileits-contact-addrs">
+                  <h4>Email :</h4>
+                  <p> <a href="dummy:info@example.com">info@example1.com</a></p>
+               </div>
             </div>
-            <div class="col-lg-4 col-md-4 agileits-contact-addrs">
-               <h4>Phone :</h4>
-               <p> 123456789</p>
-            </div>
-            <div class="col-lg-4 col-md-4 agileits-contact-addrs">
-               <h4>Email :</h4>
-               <p> <a href="dummy:info@example.com">info@example1.com</a></p>
-            </div>
-         </div> -->
    <!-- <div class="contact-us">
             <form method="get">
                <div class="row">
@@ -1234,11 +1245,13 @@
                },
                dataType: "json",
                contentType: "application/json; charset=utf-8",
-               success: function () {
-                  alert("Thakyou for choosing us our team will contact you soon");
-               }
-               
             });
+            Swal.fire(
+               'Thank you for choosing our service',
+            )
+            $('#myModal2').modal('hide');
+            shoppingCart.clearCart();
+            location.reload();
       });
       
 
